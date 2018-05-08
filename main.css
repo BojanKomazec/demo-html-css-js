@@ -1,3 +1,7 @@
-div::after {
+.apply_after::after {
     content: "hi";
-  }
+}
+
+div.apply_after::after {
+    content: "hi_after_div";
+}
