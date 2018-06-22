@@ -24,14 +24,15 @@ div.apply_after::after {
     width: 0px;
   }
 
-  @keyframes ellipsis {
+@keyframes ellipsis {
     to {
-      width: 20px;    
+        width: 20px;    
     }
-  }
+}
 
-  @-webkit-keyframes ellipsis {
+@-webkit-keyframes ellipsis {
     to {
-      width: 20px;
+        width: 20px;
     }
-  }
+}
+

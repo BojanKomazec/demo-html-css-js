@@ -17,3 +17,8 @@ function log(text) {
     var br = document.createElement('br');
     outputElement.appendChild(br);
 }
+
+function getShortTimestamp() {
+    var currentdate = new Date(); 
+    return currentdate.getHours() + ":" + currentdate.getMinutes() + ":" + currentdate.getSeconds();
+}
