@@ -7,6 +7,11 @@ document.getElementById('button-demo-1').onclick = function() {
     demo1();
 }
 
+document.getElementById('button-demo-2').onclick = function() {
+    clearElement('output');
+    demo2();
+}
+
 let _isConnectedToInternet = false;
 
 let statusOnlineElement = document.getElementById('status_online');
@@ -48,10 +53,10 @@ function determineInternetConnection() {
 }
 
 function determineInternetConnectionAsync() {
-    log(getShortTimestamp());
+    log((new Date()).toLocaleTimeString());
     return new Promise((resolve, reject) => {
         let req = new XMLHttpRequest();
-        //req.open('GET', 'https://www.google.com/s2/favicons?domain=google.com');
+        // req.open('GET', 'https://www.google.com/s2/favicons?domain=google.com');
         req.open('GET', 'http://geoip.nekudo.com/api');
         // req.setRequestHeader('User-Agent', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.87 Safari/537.36');
         // req.setRequestHeader('accept', 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8');
@@ -96,7 +101,7 @@ function updateStatus(isConnectedToInternet) {
     }
 }
 
-async function executeDelayed(timeout) {
+async function executeDelayedDetermineInternetConnectionAsync(timeout) {
     return new Promise(resolve => {
         let timer = setTimeout(async () => {
             log('timeout handler');
@@ -114,7 +119,20 @@ async function demo1() {
 
     let timeout = 5000;
     while(!isConnectedToInternet) {
-        isConnectedToInternet = await executeDelayed(timeout);
+        isConnectedToInternet = await executeDelayedDetermineInternetConnectionAsync(timeout);
+        timeout *= 2;
+    }
+    updateStatus(isConnectedToInternet);
+}
+
+async function demo2() {
+    let isConnectedToInternet = await determineInternetConnectionAsync();
+    log(`isConnectedToInternet = ${isConnectedToInternet}`);
+    updateStatus(isConnectedToInternet);
+
+    let timeout = 5000;
+    while(!isConnectedToInternet) {
+        isConnectedToInternet = await executeDelayedAsync(timeout, determineInternetConnectionAsync);
         timeout *= 2;
     }
     updateStatus(isConnectedToInternet);
