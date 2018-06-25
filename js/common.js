@@ -47,3 +47,36 @@ async function executeDelayedAsync(timeout, f) {
         }, timeout);
     })
 }
+
+async function exponentialBackoffExecutionAsync(initialTimeout, maxInterval, maxElapsedTime, multiplier, f) {
+    let timeout = initialTimeout;
+
+    let result;
+    let isRetryRequired = false;
+    let elapsedTime = 0;
+
+    try {
+        result = await f();
+        log(`exponentialBackoffExecutionAsync(): result = ${result}`); 
+        return result;
+    } catch (e) {
+        log(`exponentialBackoffExecutionAsync(): error = ${e}`);
+        let timeout = initialTimeout;
+
+        while(true) {
+            try {
+                result = await executeDelayedAsync(timeout, f)();
+                return result;
+            } catch (e) {
+                log(`exponentialBackoffExecutionAsync(): error = ${e}`);
+                elapsedTime += timeout;
+            }
+            
+            if ((timeout < maxInterval) && (elapsedTime < maxElapsedTime)) {
+                timeout *= multiplier;
+            } else {
+                throw new Error('All retries failed.');
+            }
+        }
+    }
+}

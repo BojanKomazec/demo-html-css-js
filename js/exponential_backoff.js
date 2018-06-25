@@ -12,6 +12,11 @@ document.getElementById('button-demo-2').onclick = function() {
     demo2();
 }
 
+document.getElementById('button-demo-3').onclick = function() {
+    clearElement('output');
+    demo3();
+}
+
 let _isConnectedToInternet = false;
 
 let statusOnlineElement = document.getElementById('status_online');
@@ -85,6 +90,29 @@ function determineInternetConnectionAsync() {
     });
 }
 
+function determineInternetConnectionAsync2() {
+    log((new Date()).toLocaleTimeString());
+    return new Promise((resolve, reject) => {
+        let req = new XMLHttpRequest();
+        req.open('GET', 'http://geoip.nekudo.com/api');
+        req.onreadystatechange = function () {
+            log('onreadystatechange()');
+            log(`req.readyState = ${req.readyState}, req.status = ${req.status}`);
+            if (req.readyState == 4) {
+                let reqSucceeded = (req.status >= 200 && req.status < 304);
+                if (reqSucceeded) {
+                    resolve(req.responseText);
+                }
+                else {
+                    reject('GeoIp request failed.');
+                }
+            }
+        };
+        req.send();
+        log('Request sent.');
+    });
+}
+
 //document.addEventListener('DOMContentLoaded', function() {
     //determineInternetConnection();
 //});
@@ -136,4 +164,12 @@ async function demo2() {
         timeout *= 2;
     }
     updateStatus(isConnectedToInternet);
+}
+
+async function demo3() {
+    try {
+        let geoIpJson = await exponentialBackoffExecutionAsync(5000, 60000, 600000, 2, determineInternetConnectionAsync2);
+    } catch (e) {
+        log(`e = ${e}`);
+    }
 }
