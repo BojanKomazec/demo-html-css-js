@@ -38,16 +38,31 @@ function getShortTimestamp() {
 *
 */
 async function executeDelayedAsync(timeout, f) {
-    return new Promise(resolve => {
+    return new Promise((resolve, reject) => {
         let timer = setTimeout(async () => {
             log('timeout handler');
             clearTimeout(timer);
-            let result = await f();
-            resolve(result);
+            try {
+                let result = await f();
+                resolve(result);
+            } catch (e) {
+                reject(e);
+            }
         }, timeout);
     })
 }
 
+/*
+* Retries to execute function f in a loop by using Exponential backoff. First execution is performed immediately.
+*
+* @param {int} initialTimeout Initial period (in milliseconds) after which first retry is performed.
+* @param {int} maxInterval Maximal period (in milliseconds) between two consecutive retries.
+* @param {int} maxElapsedTime Maximum period (in milliseconds) of all retries. If 0, retries go indefinitely untill f resolves (settles successfully).
+* @param {int} multiplier Used to calculate the next timeout.
+* @param {function} f Function to be executed.
+*
+* @todo Add random offset to each new timeout to prevent the case when multiple synchronized clients hitting the same server at same times.
+*/
 async function exponentialBackoffExecutionAsync(initialTimeout, maxInterval, maxElapsedTime, multiplier, f) {
     let timeout = initialTimeout;
 
@@ -65,18 +80,81 @@ async function exponentialBackoffExecutionAsync(initialTimeout, maxInterval, max
 
         while(true) {
             try {
-                result = await executeDelayedAsync(timeout, f)();
+                result = await executeDelayedAsync(timeout, f);
                 return result;
             } catch (e) {
                 log(`exponentialBackoffExecutionAsync(): error = ${e}`);
-                elapsedTime += timeout;
             }
             
-            if ((timeout < maxInterval) && (elapsedTime < maxElapsedTime)) {
-                timeout *= multiplier;
+            if (maxElapsedTime > 0) {
+                elapsedTime += timeout;
+                if (elapsedTime < maxElapsedTime) {
+                    if (timeout < maxInterval) {
+                        timeout = Math.min(timeout * multiplier, maxInterval);
+                    }
+                } else {
+                    throw new Error('All retries failed.');
+                }
+            }
+        }
+    }
+}
+
+/*
+* Retries to execute function f in a loop by using Exponential backoff. First execution is performed after initialTimeout.
+*
+* @param {int} initialTimeout Initial period (in milliseconds) after which first retry is performed.
+* @param {int} maxInterval Maximal period (in milliseconds) between two consecutive retries.
+* @param {int} maxElapsedTime Maximum period (in milliseconds) of all retries. If 0, retries go indefinitely untill f resolves (settles successfully).
+* @param {int} multiplier Used to calculate the next timeout.
+* @param {function} f Function to be executed.
+*
+* @todo Add random offset to each new timeout to prevent the case when multiple synchronized clients hitting the same server at same times.
+*
+* Example of the usage:
+*
+*    let result;
+*    try {
+*        result = await f();
+*        // handle result
+*    } catch (e) {
+*        // handle first f's failure
+*        try {
+*           result = await exponentialBackoffRetryAsync(initialTimeout, maxInterval, maxElapsedTime, multiplier, f)
+*           // handle result
+*        } catch (e) {
+*           // handle failure of all retries
+*        }
+*    }
+*/
+async function exponentialBackoffRetryAsync(initialTimeout, maxInterval, maxElapsedTime, multiplier, f) {
+    let result;
+    let isRetryRequired = false;
+    let elapsedTime = 0;
+    let timeout = initialTimeout;
+    function nextTimeout() {
+        if (timeout < maxInterval) {
+            timeout = Math.min(timeout * multiplier, maxInterval);
+        }
+    }
+
+    while(true) {
+        try {
+            result = await executeDelayedAsync(timeout, f);
+            return result;
+        } catch (e) {
+            log(`exponentialBackoffExecutionAsync(): error = ${e}`);
+        }
+        
+        if (maxElapsedTime > 0) {
+            elapsedTime += timeout;
+            if (elapsedTime < maxElapsedTime) {
+                nextTimeout();
             } else {
                 throw new Error('All retries failed.');
             }
+        } else {
+            nextTimeout();
         }
     }
 }
