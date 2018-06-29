@@ -12,9 +12,9 @@ document.getElementById('button-demo-adding-removing').onclick = function() {
     addingAndRemovingElements();
 }
 
-document.getElementById('button-demo-3').onclick = function() {
+document.getElementById('button-demo-element-ops').onclick = function() {
     clearElement('output');
-    demo3();
+    elementOperations();
 }
 
 document.getElementById('button-demo-4').onclick = function() {

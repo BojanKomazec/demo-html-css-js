@@ -42,6 +42,15 @@ function demo1() {
     person1.greeting();
 }
 
+// for..in lists ONLY enumerable properties!
+function getKeysVia_For_In(obj) {
+    let keys = [];
+    for(let key in obj){
+      keys.push(key);
+    }
+    return keys;
+}
+
 // Object.keys
 function logKeys(obj) {
     log('logKeys()');
@@ -121,6 +130,21 @@ function demoReflection() {
 
     log(getFunctions(Person));
     logFunctionMembers(Person);
+
+    log('');
+    log('Analyzing person object defined as JSON object:');
+    person = {
+        age: 21,
+        name: 'Bob',
+        greeting: function() { return `Hi, my name is ${this.name}.`; }
+    };
+    log(`keys (via for..in) = ${getKeysVia_For_In(person)}`);
+    log(`keys (via Object.getOwnPropertyNames) = ${Object.getOwnPropertyNames(person)}`);
+
+    log('');
+    log('Analyzing String:');
+    log(`keys (via for..in) = ${getKeysVia_For_In(String)}`);
+    log(`keys (via Object.getOwnPropertyNames) = ${Object.getOwnPropertyNames(String)}`);
 }
 
 function demoTypes() {
@@ -157,7 +181,7 @@ function Object_getOwnPropertyNames_demo() {
     log(Object.keys(student));                // age,name,greeting,department,surname
 
     log('');
-    log(Object.getOwnPropertyNames(student.));
+    //log(Object.getOwnPropertyNames(student.));
 
 
     log('');
