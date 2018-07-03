@@ -17,9 +17,14 @@ document.getElementById('button-demo-element-ops').onclick = function() {
     elementOperations();
 }
 
-document.getElementById('button-demo-4').onclick = function() {
+document.getElementById('button-demo-search').onclick = function() {
     clearElement('output');
-    demo4();
+    demoSearch();
+}
+
+document.getElementById('button-demo-destructuring').onclick = function() {
+    clearElement('output');
+    demoDestructuring();
 }
 
 //
@@ -92,6 +97,33 @@ function elementOperations() {
     }
     arr.push(value)
     printElementPresence(arr, value);
+}
+
+function demoSearch() {
+    let arr = [1, 2, 3, 4, 5];
+    let e = arr.find(e => e < 3);
+    log(e);
+    e = arr.find(e => e > 4);
+    log(e);
+    e = arr.find(e => e > 5);
+    log(e);
+    if (e === undefined) {
+        log('Element which matches given criteria has not been found in the array.');
+    }
+}
+
+function demoDestructuring() {
+    let arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+
+    {
+        let [a, b] = arr;
+        log(`a = ${a}, b = ${b}`); // a = 1, b = 2
+    }
+
+    {
+        let [a, b, ...c] = arr;
+        log(`a = ${a}, b = ${b}, c = ${c}`);
+    }
 }
 
 

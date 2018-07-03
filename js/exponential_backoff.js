@@ -27,6 +27,11 @@ document.getElementById('button-demo-4').onclick = function() {
     demo4();
 }
 
+document.getElementById('button-demo-5').onclick = function() {
+    clearElement('output');
+    demo5();
+}
+
 let _isConnectedToInternet = false;
 
 let statusOnlineElement = document.getElementById('status_online');
@@ -336,6 +341,30 @@ async function demo4() {
             const initialTimeout = 5000;
             const maxInterval = 30000; // 60000
             const maxElapsedTime = 0; // 600000
+            const multiplier = 2;
+            const f = determineInternetConnectionAsync2;
+            result = await exponentialBackoffRetryAsync(initialTimeout, maxInterval, maxElapsedTime, multiplier, f)
+            // handle result
+            log(`demo4(): result = ${result}`);
+        } catch (e) {
+            // handle failure of all retries
+            log(`demo4(): error = ${e}`);
+        }
+    }
+}
+
+async function demo5() {
+    let result;
+    try {
+        result = await determineInternetConnectionAsync2();
+        log(`demo4(): result = ${result}`); 
+    } catch (e) {
+        // handle first f's failure
+        log(`demo4(): error = ${e}`);
+        try {
+            const initialTimeout = 5000;
+            const maxInterval = 30000; // 60000
+            const maxElapsedTime = 2 * 60 * 1000; // 2 mins
             const multiplier = 2;
             const f = determineInternetConnectionAsync2;
             result = await exponentialBackoffRetryAsync(initialTimeout, maxInterval, maxElapsedTime, multiplier, f)

@@ -110,6 +110,7 @@ async function exponentialBackoffExecutionAsync(initialTimeout, maxInterval, max
 * @param {function} f Function to be executed.
 *
 * @todo Add random offset to each new timeout to prevent the case when multiple synchronized clients hitting the same server at same times.
+* @todo Add the ability to cancel the function execution
 *
 * Example of the usage:
 *
@@ -128,33 +129,24 @@ async function exponentialBackoffExecutionAsync(initialTimeout, maxInterval, max
 *    }
 */
 async function exponentialBackoffRetryAsync(initialTimeout, maxInterval, maxElapsedTime, multiplier, f) {
-    let result;
-    let isRetryRequired = false;
     let elapsedTime = 0;
     let timeout = initialTimeout;
-    function nextTimeout() {
-        if (timeout < maxInterval) {
-            timeout = Math.min(timeout * multiplier, maxInterval);
-        }
-    }
 
-    while(true) {
+    do {
         try {
-            result = await executeDelayedAsync(timeout, f);
-            return result;
+            return await executeDelayedAsync(timeout, f);
         } catch (e) {
             log(`exponentialBackoffExecutionAsync(): error = ${e}`);
         }
         
         if (maxElapsedTime > 0) {
             elapsedTime += timeout;
-            if (elapsedTime < maxElapsedTime) {
-                nextTimeout();
-            } else {
-                throw new Error('All retries failed.');
-            }
-        } else {
-            nextTimeout();
         }
-    }
+
+        if (timeout < maxInterval) {
+            timeout = Math.min(timeout * multiplier, maxInterval);
+        }
+    } while ((maxElapsedTime == 0) || ((maxElapsedTime > 0) && (elapsedTime < maxElapsedTime)));
+
+    throw new Error('All retries failed.');
 }
