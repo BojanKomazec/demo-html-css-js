@@ -27,6 +27,11 @@ document.getElementById('button-demo-destructuring').onclick = function() {
     demoDestructuring();
 }
 
+document.getElementById('button-demo-copying').onclick = function() {
+    clearElement('output');
+    copyingDemo();
+}
+
 //
 // Core functions
 //
@@ -126,5 +131,32 @@ function demoDestructuring() {
     }
 }
 
+function copyingDemo() {
+    let arr = [1, 2, 3];
+    log(`arr = ${arr}`);
+
+    {
+        let arr2 = [].concat(arr);
+        log(`arr2 = ${arr2}`);
+    }
+
+    {
+        let arr2 = arr.concat();
+        log(`arr2 = ${arr2}`);
+    }
+
+    {
+        // spread syntax
+        let arr2 = [...arr];
+        log(`arr2 = ${arr2}`);
+    }
+
+    {
+        //if arr2 already has some elements
+        let arr2 = [9, 8, 7];
+        arr2 = [...arr];
+        log(`arr2 = ${arr2}`);
+    }
+}
 
 

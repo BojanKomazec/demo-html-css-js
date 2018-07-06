@@ -59,15 +59,18 @@ function thisInSubroutineDemo() {
             delayedLogName5 : function() {
                 let timer = setTimeout(() => {
                     clearTimeout(timer);
-                    log(`delayedLogName5(): name = ${name}`);       // name =
+                    log(`delayedLogName5(): arrow fn`);
+                    log(`name = ${name}`);                          // name =
                     log(`this = ${this}`);                          // this = [object Object]
                     this.logName2();                                // name = Bojan
                 }, 1000);
             },
+            // arrow function gets 'this' value from its lexical scope
             delayedLogName6 : function() {
                 let timer = setTimeout(() => {
                     clearTimeout(timer);
-                    log(`delayedLogName6(): name = ${this.name}`);  // name = Bojan
+                    log('delayedLogName6(): arrow fn ');
+                    log(`this.name = ${this.name}`);                // name = Bojan
                     log(`this = ${this}`);                          // this = [object Object]
                     this.logName2();                                // name = Bojan
                 }, 1000);
