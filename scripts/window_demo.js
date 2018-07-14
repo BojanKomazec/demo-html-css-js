@@ -60,9 +60,22 @@ window.addEventListener('unload', function (event) {
 //
 // HTML event callbacks
 //
+document.getElementById('button-demo-location').onclick = function() {
+    clearElement('output');
+    locationDemo();
+}
 
 //
 // Core functions
 //
 
+function locationDemo(){
+    log(`location = ${location}`);
+    log(`window.location = ${window.location}`);
+    log(`window.location.protocol = ${window.location.protocol}`);
+    log(`window.location.host = ${window.location.host}`);
+    log(`window.location.port = ${window.location.port}`);
 
+    var srcUrl = window.location.protocol + "//" + window.location.host  + "/src";
+    log(srcUrl);
+}
