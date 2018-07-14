@@ -4,6 +4,39 @@
     padding: 0;
 }
 
+/* Set height of body and the document to 100% */
+body, html {
+    height: 100%;
+    margin: 0;
+    font-family: Arial;
+}
+
+/* Style tab links */
+.tablink {
+    background-color: lightgray;
+    color: black;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    font-size: 22px;
+    font-weight: bold;
+    width: 50%; /* calculation: 100/2 tabs = 50 */
+}
+
+.tablink:hover {
+    background-color : silver;
+}
+
+/* Style the tab content (and add height:100% for full page content) */
+.tabcontent {
+    color: black;
+    display: none;
+    padding: 100px 20px;
+    height: 100%;
+}
+
 .grid {
     display: grid;
     grid-template-columns: auto 1fr;
@@ -67,7 +100,7 @@ div.apply_after::after {
     animation: ellipsis steps(4,end) 900ms infinite;
     content: "\2026"; /* ascii code for the ellipsis character */
     width: 0px;
-  }
+}
 
 @keyframes ellipsis {
     to {
@@ -81,3 +114,10 @@ div.apply_after::after {
     }
 }
 
+#html-css-js {
+    background-color: powderblue;
+}
+
+#javascript {
+    background-color: palegoldenrod;
+}
