@@ -150,3 +150,10 @@ async function exponentialBackoffRetryAsync(initialTimeout, maxInterval, maxElap
 
     throw new Error('All retries failed.');
 }
+
+function hideAllDivChildren(element) {
+    let divs = element.querySelectorAll("div");
+    for (let i = 0; i < divs.length; i++) {
+        divs[i].style.display = 'none';
+    }
+}
