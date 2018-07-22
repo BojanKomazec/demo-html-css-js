@@ -34,5 +34,32 @@
         </div>
         <p i16n="product-name"></p>
         <script src="/scripts/css_demo.js"></script>
+        <div id="text-demo-01">
+            <div>Text inside div.</div>
+            <div><p>Text inside div > p.</p></div>
+            <div><span>Text inside div > span.</span></div>
+        </div>
+        <div id="text-demo-02">
+            <div>Default for div is <em>display:block</em>.</div>
+            <div>div1 before p1</div>
+            <div>div2 before p1</div>
+            <p>p1</p>
+            <div>div after p1. Default for p is <em>display:block.</em></div>
+            <p>p2</p>
+            <p>p3</p>
+            <div>div after p2 and p3. Default for span is <em>display:inline</em>.</div>
+            <span>span1</span>
+            <span>span2</span>
+            <div>span can have <em>display:inline-block</em>:</div>
+            <span>span1</span>
+            <span style="display: inline-block; height: 40px; background-color: red" >span2</span>
+            <span>span3</span>
+            <div>Example of inline-block span within a div:</div>
+            <div>
+                This is <span style="display: inline-block; height: 40px; background-color: red" >an inline-block span</span> and now again normal text inside div.
+            </div>
+
+        </div>
+
     </body>
 </html>
