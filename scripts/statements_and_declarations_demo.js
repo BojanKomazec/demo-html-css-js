@@ -9,7 +9,12 @@ function demoSwitch() {
     log(`getMessage('msg3') = ${getMessage('msg3')}`);
     log(`getMessage('msg4') = ${getMessage('msg4')}`);
     log(`getMessage('msg5') = ${getMessage('msg5')}`);
-    log(`getMessage('msg6') = ${getMessage('msg6')}`);
+
+    try {
+        log(`getMessage('msg6') = ${getMessage('msg6')}`);
+    } catch (error) {
+        log(`Error: ${error.message}`);
+    }
 }
 
 function getMessage(messageId) {
@@ -29,7 +34,7 @@ function getMessage(messageId) {
             result = 'Message45';
             break;
         default:
-            result = 'default_message';
+            throw new Error(`${messageId} is not valid messageId`);
     }
     return result;
 }
