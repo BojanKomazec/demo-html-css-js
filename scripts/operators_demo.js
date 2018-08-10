@@ -106,4 +106,25 @@ function identityOperatorDemo() {
     // typeof operator returns string!
     log(`typeof undefinedVar === undefined: ${typeof undefinedVar === undefined}`); // false
     log(`typeof undefinedVar === 'undefined': ${typeof undefinedVar === 'undefined'}`); // true
+
+    let a;
+    log('let a;');
+    log(`a == undefined: ${a == undefined}`);
+    log(`a === undefined: ${a === undefined}`);
+    log(`a == null: ${a == null}`);
+    log(`a === null: ${a === null}`);
+
+    let b = null;
+    log('let b = null;');
+    log(`b == undefined: ${b == undefined}`);
+    log(`b === undefined: ${b === undefined}`);
+    log(`b == null: ${b == null}`);
+    log(`b === null: ${b === null}`);
+
+    let c = undefined;
+    log('let c = undefined;');
+    log(`c == undefined: ${c == undefined}`);
+    log(`c === undefined: ${c === undefined}`);
+    log(`c == null: ${c == null}`);
+    log(`c === null: ${c === null}`);
 }
