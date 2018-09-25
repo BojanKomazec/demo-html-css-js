@@ -22,6 +22,11 @@ document.getElementById('button-demo-object-getOwnPropertyNames').onclick = func
     Object_getOwnPropertyNames_demo();
 }
 
+document.getElementById('button-demo-json-object').onclick = function() {
+    clearElement('output');
+    jsonObjectDemo();
+}
+
 
 // constructor
 function Person(name) {
@@ -191,6 +196,18 @@ function Object_getOwnPropertyNames_demo() {
     log(Object.getOwnPropertyNames(String));                // length,name,prototype,fromCharCode,fromCodePoint,raw
     log(Object.getOwnPropertyNames(new String()));          // length
     log(Object.getOwnPropertyNames(new String('test')));    // 0,1,2,3,length
+}
 
+function jsonObjectDemo() {
+    function getText(id) {
+        if (id === 'msg1') {
+            return 'message1';
+        }
+    }
 
-} 
+    var o = {
+        text : getText('msg1')
+    }
+
+    log(`o.text = ${o.text}`);
+}
