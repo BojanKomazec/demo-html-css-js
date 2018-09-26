@@ -1,4 +1,4 @@
-import { clearElement, log}  from 'common.js';
+import { clearElement, log}  from './common.js';
 
 // To test these event handlers: open window_demo.html in a tab or separate Window and then try to close it.
 // (Typing at lest one character in the input might be required)

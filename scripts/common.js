@@ -26,7 +26,7 @@ function log(text) {
 */ 
 function getShortTimestamp() {
     var currentdate = new Date(); 
-    return currentdate.getHours() + ":" + currentdate.getMinutes() + ":" + currentdate.getSeconds();
+    return currentdate.getHours() + ':' + currentdate.getMinutes() + ':' + currentdate.getSeconds();
 }
 
 /*
@@ -152,7 +152,7 @@ async function exponentialBackoffRetryAsync(initialTimeout, maxInterval, maxElap
 }
 
 function hideAllDivChildren(element) {
-    let divs = element.querySelectorAll("div");
+    let divs = element.querySelectorAll('div');
     for (let i = 0; i < divs.length; i++) {
         divs[i].style.display = 'none';
     }

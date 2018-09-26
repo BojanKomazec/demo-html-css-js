@@ -1,4 +1,4 @@
-import { clearElement, log, hideAllDivChildren}  from 'common.js';
+import { clearElement, log, hideAllDivChildren}  from './common.js';
 
 (function() {
     //

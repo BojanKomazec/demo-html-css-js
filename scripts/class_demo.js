@@ -1,4 +1,4 @@
-import { clearElement, log}  from 'common.js';
+import { clearElement, log}  from './common.js';
 
 //
 // HTML event callbacks
