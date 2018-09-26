@@ -1,3 +1,5 @@
+import { clearElement, log}  from 'common.js';
+
 //
 // HTML event callbacks
 //
@@ -5,26 +7,24 @@
 document.getElementById('button-demo-1').onclick = function() {
     clearElement('output');
     initialization();
-}
+};
 
 document.getElementById('button-demo-2').onclick = function() {
     clearElement('output');
     demo2();
-}
+};
 
 document.getElementById('button-demo-3').onclick = function() {
     clearElement('output');
     demo3();
-}
-
+};
 
 //
 // Core functions
 //
 
-
 function initialization() {
-    log('Using *then-catch* idiom to call fetch API:')
+    log('Using *then-catch* idiom to call fetch API:');
     let url = 'http://geoip.nekudo.com/api'; // returns body in JSON format
     fetch(url).then(response => {
         log(`Response: ${response}`);
@@ -43,7 +43,7 @@ function initialization() {
 }
 
 async function demo2() {
-    log('Using *async-await* idiom to call fetch API:')
+    log('Using *async-await* idiom to call fetch API:');
     try {
         let response = await fetch('http://geoip.nekudo.com/api');
         log(`Response status : ${response.status}`);
@@ -62,9 +62,8 @@ async function demo2() {
     }
 }
 
-
 async function demo3() {
-    log('Using *async-await* idiom to call fetch API:')
+    log('Using *async-await* idiom to call fetch API:');
     try {
         let response = await fetch('http://geoip.nekudo.com/api');
         log(`Response status : ${response.status}`);

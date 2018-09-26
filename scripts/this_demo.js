@@ -1,3 +1,5 @@
+import { clearElement, log}  from 'common.js';
+
 //
 // HTML event callbacks
 //
@@ -5,7 +7,7 @@
 document.getElementById('button-demo-this-subroutine').onclick = function() {
     clearElement('output');
     thisInSubroutineDemo();
-}
+};
 
 //
 // Core functions
@@ -15,7 +17,7 @@ function thisInSubroutineDemo() {
 
     {
         let o = {
-            name : "Bojan",
+            name : 'Bojan',
             logName : function () {
                 log(`name = ${name}`); // name = 
             },
@@ -59,7 +61,7 @@ function thisInSubroutineDemo() {
             delayedLogName5 : function() {
                 let timer = setTimeout(() => {
                     clearTimeout(timer);
-                    log(`delayedLogName5(): arrow fn`);
+                    log('delayedLogName5(): arrow fn');
                     log(`name = ${name}`);                          // name =
                     log(`this = ${this}`);                          // this = [object Object]
                     this.logName2();                                // name = Bojan
@@ -75,7 +77,7 @@ function thisInSubroutineDemo() {
                     this.logName2();                                // name = Bojan
                 }, 1000);
             }
-        }
+        };
 
         o.logName();
         o.logName2();
@@ -90,8 +92,4 @@ function thisInSubroutineDemo() {
         o.delayedLogName5();
         o.delayedLogName6();
     }
-  
 }
-
-
-

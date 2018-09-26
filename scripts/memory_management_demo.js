@@ -1,3 +1,5 @@
+import { clearElement, log}  from 'common.js';
+
 //
 // HTML event callbacks
 //
@@ -5,12 +7,12 @@
 document.getElementById('button-demo-demo1').onclick = function() {
     clearElement('output');
     demo1();
-}
+};
 
 document.getElementById('button-demo-demo2').onclick = function() {
     clearElement('output');
     demo2();
-}
+};
 
 //
 // Core functions

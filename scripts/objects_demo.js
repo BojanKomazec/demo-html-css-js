@@ -1,3 +1,5 @@
+import { clearElement, log}  from 'common.js';
+
 //
 // HTML event callbacks
 //
@@ -5,27 +7,27 @@
 document.getElementById('button-demo-1').onclick = function() {
     clearElement('output');
     demo1();
-}
+};
 
 document.getElementById('button-demo-reflection').onclick = function() {
     clearElement('output');
     demoReflection();
-}
+};
 
 document.getElementById('button-demo-types').onclick = function() {
     clearElement('output');
     demoTypes();
-}
+};
 
 document.getElementById('button-demo-object-getOwnPropertyNames').onclick = function() {
     clearElement('output');
     Object_getOwnPropertyNames_demo();
-}
+};
 
 document.getElementById('button-demo-json-object').onclick = function() {
     clearElement('output');
     jsonObjectDemo();
-}
+};
 
 
 // constructor
@@ -51,7 +53,7 @@ function demo1() {
 function getKeysVia_For_In(obj) {
     let keys = [];
     for(let key in obj){
-      keys.push(key);
+        keys.push(key);
     }
     return keys;
 }
@@ -70,14 +72,14 @@ function logKeys2(obj) {
     log('logKeys2()');
     for(let key in obj) {
         log(`\t\tkey: ${key}`);
-    };
+    }
 }
 
 function logKeysAndValues(obj) {
     log('logKeysAndValues()');
     for(let key in obj) {
         log(`${key} : ${obj[key]}`);
-    };
+    }
 }
 
 function getFunctions(obj) {
@@ -110,7 +112,7 @@ function demoReflection() {
     log(new String()); // output: 
 
 
-    log('\n')
+    log('\n');
     
     log('Print all object keys:');
 
@@ -154,11 +156,11 @@ function demoReflection() {
 
 function demoTypes() {
     log('demoTypes');
-    log(`typeof \'test\' = ${typeof 'test'}`); // output: string
+    log(`typeof 'test' = ${typeof 'test'}`); // output: string
 
     // String is a global object - a constructor for strings
     log(`typeof new String() = ${typeof new String()}`); // output: 
-    log(`typeof new String(\'test\') = ${typeof new String('test')}`); // output:
+    log(`typeof new String('test') = ${typeof new String('test')}`); // output:
 
 }
 
@@ -207,7 +209,7 @@ function jsonObjectDemo() {
 
     var o = {
         text : getText('msg1')
-    }
+    };
 
     log(`o.text = ${o.text}`);
 }

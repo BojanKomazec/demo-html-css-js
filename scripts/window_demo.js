@@ -1,3 +1,4 @@
+import { clearElement, log}  from 'common.js';
 
 // To test these event handlers: open window_demo.html in a tab or separate Window and then try to close it.
 // (Typing at lest one character in the input might be required)
@@ -63,7 +64,7 @@ window.addEventListener('unload', function (event) {
 document.getElementById('button-demo-location').onclick = function() {
     clearElement('output');
     locationDemo();
-}
+};
 
 //
 // Core functions
@@ -76,6 +77,6 @@ function locationDemo(){
     log(`window.location.host = ${window.location.host}`);
     log(`window.location.port = ${window.location.port}`);
 
-    var srcUrl = window.location.protocol + "//" + window.location.host  + "/src";
+    var srcUrl = window.location.protocol + '//' + window.location.host  + '/src';
     log(srcUrl);
 }

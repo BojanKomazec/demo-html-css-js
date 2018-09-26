@@ -157,3 +157,9 @@ function hideAllDivChildren(element) {
         divs[i].style.display = 'none';
     }
 }
+
+export {
+    clearElement,
+    log,
+    hideAllDivChildren
+};

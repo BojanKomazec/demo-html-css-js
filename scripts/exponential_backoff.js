@@ -1,3 +1,5 @@
+import { clearElement, log}  from 'common.js';
+
 //
 // HTML event callbacks
 //
@@ -5,32 +7,32 @@
 document.getElementById('button-demo-basic-features').onclick = function() {
     clearElement('output');
     demoBasicFeatures();
-}
+};
 
 document.getElementById('button-demo-1').onclick = function() {
     clearElement('output');
     demo1();
-}
+};
 
 document.getElementById('button-demo-2').onclick = function() {
     clearElement('output');
     demo2();
-}
+};
 
 document.getElementById('button-demo-3').onclick = function() {
     clearElement('output');
     demo3();
-}
+};
 
 document.getElementById('button-demo-4').onclick = function() {
     clearElement('output');
     demo4();
-}
+};
 
 document.getElementById('button-demo-5').onclick = function() {
     clearElement('output');
     demo5();
-}
+};
 
 let _isConnectedToInternet = false;
 
@@ -67,7 +69,7 @@ async function demoBasicFeatures() {
             if (isTobeResolvedSuccessfully) {
                 resolve(123);
             } else {
-                reject('Failed to retrieve the value.')
+                reject('Failed to retrieve the value.');
             }
         });
     }
@@ -91,20 +93,20 @@ async function demoBasicFeatures() {
     // Demo attaching callbacks to the Promise (with then/catch; await is not used)
 
     f2(true)
-    .then(res => {
-        log(`res = ${res}`); // output: res = 123 
-    })
-    .catch(e => {
-        log(`e = ${e}`);
-    });
+        .then(res => {
+            log(`res = ${res}`); // output: res = 123 
+        })
+        .catch(e => {
+            log(`e = ${e}`);
+        });
 
     f2(false)
-    .then(res => {
-        log(`res = ${res}`);
-    })
-    .catch(e => {
-        log(`e = ${e}`); // output: e = Failed to retrieve the value.
-    });
+        .then(res => {
+            log(`res = ${res}`);
+        })
+        .catch(e => {
+            log(`e = ${e}`); // output: e = Failed to retrieve the value.
+        });
 
     log('');
     // What happens if Promise gets rejected by throwing exception (not by calling reject)
@@ -137,20 +139,20 @@ async function demoBasicFeatures() {
     // Demo attaching callbacks to the Promise (with then/catch; await is not used)
 
     f3(true)
-    .then(res => {
-        log(`res3 = ${res}`); // output: res = 123 
-    })
-    .catch(e => {
-        log(`e3 = ${e}`);
-    });
+        .then(res => {
+            log(`res3 = ${res}`); // output: res = 123 
+        })
+        .catch(e => {
+            log(`e3 = ${e}`);
+        });
 
     f3(false)
-    .then(res => {
-        log(`res4 = ${res}`);
-    })
-    .catch(e => {
-        log(`e4 = ${e}`); // output: e = Failed to retrieve the value.
-    });
+        .then(res => {
+            log(`res4 = ${res}`);
+        })
+        .catch(e => {
+            log(`e4 = ${e}`); // output: e = Failed to retrieve the value.
+        });
 
     log('');
 
@@ -287,7 +289,7 @@ async function executeDelayedDetermineInternetConnectionAsync(timeout) {
             let isConnectedToInternet = await determineInternetConnectionAsync();
             resolve(isConnectedToInternet);
         }, timeout);
-    })
+    });
 }
 
 async function demo1() {
@@ -343,7 +345,7 @@ async function demo4() {
             const maxElapsedTime = 0; // 600000
             const multiplier = 2;
             const f = determineInternetConnectionAsync2;
-            result = await exponentialBackoffRetryAsync(initialTimeout, maxInterval, maxElapsedTime, multiplier, f)
+            result = await exponentialBackoffRetryAsync(initialTimeout, maxInterval, maxElapsedTime, multiplier, f);
             // handle result
             log(`demo4(): result = ${result}`);
         } catch (e) {
@@ -367,7 +369,7 @@ async function demo5() {
             const maxElapsedTime = 2 * 60 * 1000; // 2 mins
             const multiplier = 2;
             const f = determineInternetConnectionAsync2;
-            result = await exponentialBackoffRetryAsync(initialTimeout, maxInterval, maxElapsedTime, multiplier, f)
+            result = await exponentialBackoffRetryAsync(initialTimeout, maxInterval, maxElapsedTime, multiplier, f);
             // handle result
             log(`demo4(): result = ${result}`);
         } catch (e) {

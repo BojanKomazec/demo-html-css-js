@@ -1,3 +1,5 @@
+import { clearElement, log}  from 'common.js';
+
 //
 // HTML event callbacks
 //
@@ -5,17 +7,17 @@
 document.getElementById('button-demo-1').onclick = function() {
     clearElement('output');
     demo1();
-}
+};
 
 document.getElementById('button-demo-2').onclick = function() {
     clearElement('output');
     demo2();
-}
+};
 
 document.getElementById('button-demo-3').onclick = function() {
     clearElement('output');
     demo3();
-}
+};
 
 var total = 0;
 
@@ -36,16 +38,16 @@ function doubleAfter2Seconds(x) {
 function demo1() {
     total = 3;
     doubleAfter2Seconds(total)
-    .then(x => doubleAfter2Seconds(x))
-    .then(x => doubleAfter2Seconds(x));
+        .then(x => doubleAfter2Seconds(x))
+        .then(x => doubleAfter2Seconds(x));
 }
 
 // 10 + 2*10 + 2*20 + 2*30 = 130
 function demo2() {
     total = 10;
     doubleAfter2Seconds(total)
-    .then(x => doubleAfter2Seconds(20))
-    .then(x => doubleAfter2Seconds(30));
+        .then(doubleAfter2Seconds(20))
+        .then(doubleAfter2Seconds(30));
 }
 
 async function addAsync() {

@@ -1,3 +1,5 @@
+import { clearElement, log}  from 'common.js';
+
 //
 // HTML event callbacks
 //
@@ -5,22 +7,22 @@
 document.getElementById('button-demo-1').onclick = function() {
     clearElement('output');
     demo1();
-}
+};
 
 document.getElementById('button-demo-2').onclick = function() {
     clearElement('output');
     demo2();
-}
+};
 
 document.getElementById('button-demo-3').onclick = function() {
     clearElement('output');
     demo3();
-}
+};
 
 document.getElementById('button-demo-4').onclick = function() {
     clearElement('output');
     demo4();
-}
+};
 
 //
 // Core functions
@@ -30,10 +32,10 @@ function demo1() {
     var promise = new Promise((resolve, reject) => {
         log('executor()');
         if (Math.random() > .5) {
-            resolve("SUCCESS");
-          } else {
-            reject("FAILURE");
-          }
+            resolve('SUCCESS');
+        } else {
+            reject('FAILURE');
+        }
     });
     
     promise.then(
@@ -54,7 +56,7 @@ function delay(timeInterval) {
 
         timer = setTimeout(
             () => { 
-                resolve("SUCCESS"); 
+                resolve('SUCCESS'); 
                 clearTimeout(timer); // cleanup timer resources in timer callback
             }, 
             timeInterval
@@ -82,13 +84,13 @@ function demo2() {
     document.getElementById('cancel-button').onclick = function() {
         clearTimeout(timer);
         log('Waiting canceled!');
-    }
+    };
 
     var promise = delay(3000);
     //promise.then(log('Delay completed!')); // WRONG! log() is executed immediately!
     promise.then(
         function(value) { log('Delay completed! Value: ' + value); }, // onfullfilled callback
-        function() { log('Delay canceled!') }                         // onrejected callback; can also be attached via promise.catch
+        function() { log('Delay canceled!'); }                         // onrejected callback; can also be attached via promise.catch
     );
 }
 

@@ -1,3 +1,5 @@
+import { clearElement, log}  from 'common.js';
+
 document.getElementById('button-demo-switch').onclick = function() {
     clearElement('output');
     demoSwitch();
@@ -20,21 +22,21 @@ function demoSwitch() {
 function getMessage(messageId) {
     let result = '';
     switch (messageId) {
-        case 'msg1':
-            result = 'Message1';
-            break;
-        case 'msg2':
-            result = 'Message2';
-            // note that there is NO break here!
-        case 'msg3':
-            result = 'Message3';
-            break;
-        case 'msg4':
-        case 'msg5':
-            result = 'Message45';
-            break;
-        default:
-            throw new Error(`${messageId} is not valid messageId`);
+    case 'msg1':
+        result = 'Message1';
+        break;
+    case 'msg2':
+        result = 'Message2';
+        // note that there is NO break here!
+    case 'msg3':
+        result = 'Message3';
+        break;
+    case 'msg4':
+    case 'msg5':
+        result = 'Message45';
+        break;
+    default:
+        throw new Error(`${messageId} is not valid messageId`);
     }
     return result;
 }

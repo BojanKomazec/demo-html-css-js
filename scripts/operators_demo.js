@@ -1,3 +1,5 @@
+import { clearElement, log}  from 'common.js';
+
 //
 // HTML event callbacks
 //
@@ -5,12 +7,12 @@
 document.getElementById('button-demo-equality-operator').onclick = function() {
     clearElement('output');
     equalityOperatorDemo();
-}
+};
 
 document.getElementById('button-demo-identity-operator').onclick = function() {
     clearElement('output');
     identityOperatorDemo();
-}
+};
 
 //
 // Core functions
@@ -27,31 +29,31 @@ function equalityOperatorDemo() {
         log(`arg1 = ${arg1}`);
 
         if (arg1) {
-            log(`if (arg1) is true`);
+            log('if (arg1) is true');
         }
 
         if (arg1 != null) {
-            log(`if (arg1 != null) is true`);
+            log('if (arg1 != null) is true');
         } else {
-            log(`if (arg1 == null) is true`);
+            log('if (arg1 == null) is true');
         }
 
         if (arg1 != undefined) {
-            log(`if (arg1 != undefined) is true`);
+            log('if (arg1 != undefined) is true');
         } else {
-            log(`if (arg1 == undefined) is true`);
+            log('if (arg1 == undefined) is true');
         }
 
         if (arg1 !== null) {
-            log(`if (arg1 !== null) is true`);
+            log('if (arg1 !== null) is true');
         } else {
-            log(`if (arg1 === null) is true`);
+            log('if (arg1 === null) is true');
         }
 
         if (arg1 !== undefined) {
-            log(`if (arg1 !== undefined) is true`);
+            log('if (arg1 !== undefined) is true');
         } else {
-            log(`if (arg1 === undefined) is true`);
+            log('if (arg1 === undefined) is true');
         }
     }
 
@@ -62,18 +64,18 @@ function equalityOperatorDemo() {
 
     // f(undefinedVar); // undefinedVar is not defined
 
-    const o = { "a" : 1 };
+    const o = { 'a' : 1 };
     log('o = { "a" : 1 }');
     if (o.a) {
-        log(`if (o.a) is true`);
+        log('if (o.a) is true');
     } else {
-        log(`if (o.a) is false`);
+        log('if (o.a) is false');
     }
 
     if (o.b) {
-        log(`if (o.b) is true`);
+        log('if (o.b) is true');
     } else {
-        log(`if (o.b) is false`);
+        log('if (o.b) is false');
     }
 
     log('f(o.b)');
@@ -97,7 +99,7 @@ function identityOperatorDemo() {
     log(`null === undefined: ${null === undefined}`);
     
     // log(`undefinedVar === undefined: ${undefinedVar === undefined}`); // ReferenceError: undefinedVar is not defined
-    const o = { "a" : 1 };
+    const o = { 'a' : 1 };
     log(`o.b === undefined: ${o.b === undefined}`);
 
     // typeof accepts undeclared variables

@@ -1,3 +1,5 @@
+import { clearElement, log}  from 'common.js';
+
 //
 // HTML event callbacks
 //
@@ -5,32 +7,32 @@
 document.getElementById('button-demo-initializing').onclick = function() {
     clearElement('output');
     initialization();
-}
+};
 
 document.getElementById('button-demo-adding-removing').onclick = function() {
     clearElement('output');
     addingAndRemovingElements();
-}
+};
 
 document.getElementById('button-demo-element-ops').onclick = function() {
     clearElement('output');
     elementOperations();
-}
+};
 
 document.getElementById('button-demo-search').onclick = function() {
     clearElement('output');
     demoSearch();
-}
+};
 
 document.getElementById('button-demo-destructuring').onclick = function() {
     clearElement('output');
     demoDestructuring();
-}
+};
 
 document.getElementById('button-demo-copying').onclick = function() {
     clearElement('output');
     copyingDemo();
-}
+};
 
 //
 // Core functions
@@ -100,7 +102,7 @@ function elementOperations() {
     if (arr.indexOf(value) === -1) {
         log(`Array does not contain element ${value}`);
     }
-    arr.push(value)
+    arr.push(value);
     printElementPresence(arr, value);
 }
 
@@ -158,5 +160,3 @@ function copyingDemo() {
         log(`arr2 = ${arr2}`);
     }
 }
-
-

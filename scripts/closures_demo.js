@@ -1,3 +1,5 @@
+import { clearElement, log}  from 'common.js';
+
 //
 // HTML event callbacks
 //
@@ -5,17 +7,17 @@
 document.getElementById('button-demo-1').onclick = function() {
     clearElement('output');
     demo1();
-}
+};
 
 document.getElementById('button-demo-2').onclick = function() {
     clearElement('output');
     demo2();
-}
+};
 
 document.getElementById('button-demo-3').onclick = function() {
     clearElement('output');
     demo3();
-}
+};
 
 // inner() can access variables from outer/enclosing scope
 function demo1() {
@@ -52,7 +54,7 @@ function demo3() {
         log(`outer(): val = ${val}`);
         return function inner() {
             log(`inner(): val = ${val}`);
-        }
+        };
     }
 
     var f = outer(456);

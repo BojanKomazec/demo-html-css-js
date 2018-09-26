@@ -1,3 +1,5 @@
+import { clearElement, log}  from 'common.js';
+
 //
 // HTML event callbacks
 //
@@ -5,7 +7,7 @@
 document.getElementById('button-demo-destructuring').onclick = function() {
     clearElement('output');
     demoDestructuring();
-}
+};
 
 //
 // Core functions

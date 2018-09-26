@@ -1,3 +1,5 @@
+import { clearElement, log}  from 'common.js';
+
 //
 // HTML event callbacks
 //
@@ -5,7 +7,7 @@
 document.getElementById('button-demo1').onclick = function() {
     clearElement('output');
     demo1();
-}
+};
 
 //
 // Core functions
@@ -27,9 +29,9 @@ class Person {
 }
 
 function demo1() {
-    log("Demo1");
+    log('Demo1');
 
-    let person = new Person("Bojan");
+    let person = new Person('Bojan');
     person.sayName();
     log(`person.name = ${person.name}`);
 }
