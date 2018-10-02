@@ -34,6 +34,21 @@ document.getElementById('button-demo-copying').onclick = function() {
     copyingDemo();
 };
 
+document.getElementById('button-demo-filter').onclick = function() {
+    clearElement('output');
+    filterDemo();
+};
+
+document.getElementById('button-demo-map').onclick = function() {
+    clearElement('output');
+    mapDemo();
+};
+
+document.getElementById('button-demo-forEach').onclick = function() {
+    clearElement('output');
+    forEachDemo();
+};
+
 //
 // Core functions
 //
@@ -159,4 +174,26 @@ function copyingDemo() {
         arr2 = [...arr];
         log(`arr2 = ${arr2}`);
     }
+}
+
+function filterDemo() {
+    let arr = [1, 2, 3, 4, 5];
+    log(`arr = ${arr}`);
+    let arr2 = arr.filter(el => el > 3);
+    log(`arr2 = ${arr2}`);
+}
+
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map
+function mapDemo() {
+    let arr = [1, 2, 3];
+    log(`arr = ${arr}`);
+    let arr2 = arr.map(el => el * 2);
+    log(`arr2 = ${arr2}`);
+}
+
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map
+function forEachDemo() {
+    let arr = [1, 2, 3];
+    log(`arr = ${arr}`);
+    arr.forEach(el => log(`${el}`));
 }
