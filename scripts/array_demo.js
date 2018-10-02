@@ -49,6 +49,16 @@ document.getElementById('button-demo-forEach').onclick = function() {
     forEachDemo();
 };
 
+document.getElementById('button-demo-isArray').onclick = function() {
+    clearElement('output');
+    isArrayDemo();
+};
+
+document.getElementById('button-demo-slice').onclick = function() {
+    clearElement('output');
+    sliceDemo();
+};
+
 //
 // Core functions
 //
@@ -61,7 +71,7 @@ function initialization() {
 
     log('');
     log('Array containg 1, \'1\', \"1\"');
-    arr = [1, '1', "1"];
+    arr = [1, '1', '1'];
     log(`arr = ${arr}`);
     log(`arr[0] = ${arr[0]}`);
     log(`arr[1] = ${arr[1]}`);
@@ -196,4 +206,31 @@ function forEachDemo() {
     let arr = [1, 2, 3];
     log(`arr = ${arr}`);
     arr.forEach(el => log(`${el}`));
+}
+
+function isArrayDemo() {
+    log(`Array.isArray([]): ${Array.isArray([])}`);
+    log(`Array.isArray([0]): ${Array.isArray([0])}`);
+    log(`Array.isArray([0, 1, 2]): ${Array.isArray([0, 1, 2])}`);
+    log(`Array.isArray(true): ${Array.isArray(true)}`);
+    log(`Array.isArray('IAmAString'): ${Array.isArray('IAmAString')}`);
+    log(`Array.isArray(123): ${Array.isArray(123)}`);
+    log(`Array.isArray({ name : 'Bojan' }}): ${Array.isArray({ name : 'Bojan' })}`);
+}
+
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/slice
+function sliceDemo() {
+    let arr = ['Anna', 'Becky', 'Charlotte', 'Danny', 'Eleonore'];
+    log(`arr = ${arr}`);
+    log(`arr.slice(0, 0) =  ${arr.slice(0, 0)}`);
+    log(`arr.slice(0, 1) =  ${arr.slice(0, 1)}`);
+    log(`arr.slice(0, 2) =  ${arr.slice(0, 2)}`);
+    log(`arr.slice(1, 3) =  ${arr.slice(1, 3)}`);
+    log(`arr.slice(3, 1) =  ${arr.slice(3, 1)}`);
+    log(`arr.slice(-1, 2) =  ${arr.slice(-1, 2)}`);
+    log(`arr.slice(-1, 4) =  ${arr.slice(-1, 4)}`);
+    log(`arr.slice(2, -1) =  ${arr.slice(2, -1)}`);
+    log(`arr.slice(2, -2) =  ${arr.slice(2, -2)}`);
+    log(`arr.slice(0, 5) =  ${arr.slice(0, 5)}`);
+    log(`arr.slice(4, 6) =  ${arr.slice(4, 6)}`);
 }
