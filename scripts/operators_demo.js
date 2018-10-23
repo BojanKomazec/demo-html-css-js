@@ -14,6 +14,11 @@ document.getElementById('button-demo-identity-operator').onclick = function() {
     identityOperatorDemo();
 };
 
+document.getElementById('button-demo-spread-operator-properties').onclick = function() {
+    clearElement('output');
+    spreadOperatorOnPropertiesDemo();
+};
+
 //
 // Core functions
 //
@@ -129,4 +134,33 @@ function identityOperatorDemo() {
     log(`c === undefined: ${c === undefined}`);
     log(`c == null: ${c == null}`);
     log(`c === null: ${c === null}`);
+}
+
+// TODO: spread operator
+// https://zendev.com/2018/05/09/understanding-spread-operator-in-javascript.html
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax
+function spreadOperatorOnPropertiesDemo() {
+    let a = 1;
+    let b = 2;
+    let c = {
+        x: 3,
+        y: 4
+    };
+
+    let aggregateObject = {a, b, ...c};
+    log(`aggregateObject = ${JSON.stringify(aggregateObject)}`);
+    // output: aggregateObject = {"a":1,"b":2,"x":3,"y":4}
+    // This is something similar like flattening multidimensional objects into a 1-D list.
+
+    // What happens if some of expanded objects has propertes with the same names as some of the previous variables
+    // added to the aggegate?
+    let d = {
+        a : 3,
+        b: 4
+    };
+
+    let aggregateObject2 = {a, b, ...d};
+    log(`aggregateObject2 = ${JSON.stringify(aggregateObject2)}`);
+    // Values are overwritten!
+    // aggregateObject2 = {"a":3,"b":4}
 }

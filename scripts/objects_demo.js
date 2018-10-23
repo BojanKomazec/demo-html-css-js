@@ -29,6 +29,15 @@ document.getElementById('button-demo-json-object').onclick = function() {
     jsonObjectDemo();
 };
 
+document.getElementById('button-demo-object-assign').onclick = function() {
+    clearElement('output');
+    objectAssignDemo();
+};
+
+document.getElementById('button-demo-null-property-demo').onclick = function() {
+    clearElement('output');
+    nullPropertyDemo();
+};
 
 // constructor
 function Person(name) {
@@ -212,4 +221,23 @@ function jsonObjectDemo() {
     };
 
     log(`o.text = ${o.text}`);
+}
+
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign
+function objectAssignDemo() {
+    log(`Object.assign({ }, {a: 1, b: 2}) = ${JSON.stringify(Object.assign({ }, {a: 1, b: 2}))}`);
+    log(`Object.assign({ a: 1, b: 2}, {a: 1, b: 3}) = ${JSON.stringify(Object.assign({ a: 1, b: 2}, {a: 1, b: 3}))}`);
+}
+
+function nullPropertyDemo() {
+    const o = {
+        prop1: 'a',
+        prop2: 1,
+        prop3: null
+    };
+
+    log(`prop3 is ${o.prop3}`);
+    if (o.prop3 === null) {
+        log('prop3 is null');
+    }
 }

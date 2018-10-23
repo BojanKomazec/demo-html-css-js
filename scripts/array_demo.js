@@ -59,6 +59,16 @@ document.getElementById('button-demo-slice').onclick = function() {
     sliceDemo();
 };
 
+document.getElementById('button-demo-join').onclick = function() {
+    clearElement('output');
+    joinDemo();
+};
+
+document.getElementById('button-demo-reduce').onclick = function() {
+    clearElement('output');
+    reduceDemo();
+};
+
 //
 // Core functions
 //
@@ -199,6 +209,7 @@ function mapDemo() {
     log(`arr = ${arr}`);
     let arr2 = arr.map(el => el * 2);
     log(`arr2 = ${arr2}`);
+    arr.map((el, index) => log(`index = ${index}, element = ${el}`));
 }
 
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map
@@ -233,4 +244,28 @@ function sliceDemo() {
     log(`arr.slice(2, -2) =  ${arr.slice(2, -2)}`);
     log(`arr.slice(0, 5) =  ${arr.slice(0, 5)}`);
     log(`arr.slice(4, 6) =  ${arr.slice(4, 6)}`);
+}
+
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/join
+function joinDemo() {
+    let arr = ['Anna', 'Becky', 'Charlotte', 'Danny', 'Eleonore'];
+    log(`arr = ${arr}`);
+    log(`arr.join() =  ${arr.join()}`);
+    log(`arr.join(',') =  ${arr.join(',')}`);
+    log(`arr.join(' ') =  ${arr.join(' ')}`);
+    log(`arr.join('-') =  ${arr.join('-')}`);
+}
+
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/reduce
+// reduce() method executes provided reducer function on each member of the array resulting in a single output value
+function reduceDemo() {
+    let arr = [1, 2, 3, 4, 5];
+
+    function reducer(accumulator, nextElement) {
+        accumulator += nextElement;
+        return accumulator;
+    }
+
+    let finalValue = arr.reduce(reducer);
+    log(`finalValue = ${finalValue}`);
 }
