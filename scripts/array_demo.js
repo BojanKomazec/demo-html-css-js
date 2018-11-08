@@ -257,6 +257,7 @@ function joinDemo() {
 }
 
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/reduce
+// https://hackernoon.com/reduce-your-fears-about-array-reduce-629b334ab945
 // reduce() method executes provided reducer function on each member of the array resulting in a single output value
 function reduceDemo() {
     let arr = [1, 2, 3, 4, 5];

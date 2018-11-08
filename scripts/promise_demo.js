@@ -42,6 +42,21 @@ function demo1() {
         resultSuccess => { log(resultSuccess); }, 
         resultFailure => { log(resultFailure); }
     );
+
+    function someAsyncFunction() {
+        return new Promise((resolve, reject) => {
+            resolve('Success!');
+        });
+    }
+
+    function someFunctionWithStringArg(s) {
+        log(`Passed string is: ${s}`);
+    }
+
+    // resolved promise value is automatically passed into chained function, no need to specify passing the argument
+    // explicitly
+    someAsyncFunction().then(someFunctionWithStringArg);
+    // Output: Passed string is: Success!
 }
 
 var timer;

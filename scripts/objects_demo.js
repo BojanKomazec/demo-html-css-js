@@ -39,6 +39,12 @@ document.getElementById('button-demo-null-property-demo').onclick = function() {
     nullPropertyDemo();
 };
 
+
+document.getElementById('button-demo-json-verification').onclick = function() {
+    clearElement('output');
+    jsonVerificationDemo();
+};
+
 // constructor
 function Person(name) {
     this.name = name;
@@ -56,6 +62,52 @@ function demo1() {
     log('person1 object: %o', person1);
     log(`person2 object: \n${JSON.stringify(person2)}`);
     person1.greeting();
+
+    // unnamed object type
+    const unnamedObject = {
+        a: 1,
+        b: 'b',
+        // JS objects can contain functions
+        foo: function(c) {
+            log(`foo(): c = ${c}`);
+        },
+        // use 'this' to access other properties from the same object
+        bar: function() {
+            log(`bar(): this.a = ${this.a}`);
+            this.foo('bar is calling foo');
+        }
+    };
+
+    unnamedObject.foo(123);
+    unnamedObject.bar();
+    // the type of the value can be changed in runtime
+    unnamedObject.a = 'a has now changed the type, it is a string now';
+    unnamedObject.bar();
+
+    const unnamedObject2 = {
+        a: 1,
+        b: 'b',
+        // JS objects can contain functions
+        foo(c) {
+            log(`foo(): c = ${c}`);
+        }
+    };
+
+    unnamedObject2.foo(456);
+
+    function funcionWhichReturnsObjectWithFunction() {
+        return  {
+            a: 1,
+            b: 'b',
+            // JS objects can contain functions
+            foo(c) {
+                log(`foo(): c = ${c}`);
+            }
+        };
+    }
+
+    const objectWithFunction = funcionWhichReturnsObjectWithFunction();
+    objectWithFunction.foo(789);
 }
 
 // for..in lists ONLY enumerable properties!
@@ -68,9 +120,10 @@ function getKeysVia_For_In(obj) {
 }
 
 // Object.keys
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/keys
 function logKeys(obj) {
     log('logKeys()');
-    let keys = Object.keys(obj);
+    const keys = Object.keys(obj);
     keys.forEach(function(key) {
         log(`key: ${key}`);
     });
@@ -216,6 +269,7 @@ function jsonObjectDemo() {
         }
     }
 
+    // it is possible to use some function in order to calculate the value of some key
     var o = {
         text : getText('msg1')
     };
@@ -239,5 +293,82 @@ function nullPropertyDemo() {
     log(`prop3 is ${o.prop3}`);
     if (o.prop3 === null) {
         log('prop3 is null');
+    }
+}
+
+/**
+ * If JSON comes from the outside world, it might not contain all expected properties, it might be missing some values
+ * or be corrupted in some other way so it's always good to verify if it's corrupted or not. But, how to do it properly?
+ * */
+function jsonVerificationDemo() {
+    // This JSON string is malformed. JSON.parse throws exception:
+    //    Unexpected token , in JSON at position 51 at JSON.parse (<anonymous>)
+    // let jsonString = '{ "prop1": "1", "prop2": "b", "prop3": {}, "prop4":, "prop6": null}';
+
+    let jsonString = '{ "prop1": "1", "prop2": "b", "prop3": {}, "prop4": "", "prop6": null}';
+    log(`Incoming (corrupted) JSON: ${jsonString}`);
+
+    let o = JSON.parse(jsonString);
+
+    if (o) {
+        log(`o is not null/undefined. o: ${o}`);
+    }
+
+    if (o.prop1) {
+        let val1 = o.prop1;
+        log(`val1: ${val1}`);
+    }
+
+    if (o.prop4) {
+        log(`o.prop4 is not null/undefined. o.prop4: ${o.prop4}`);
+        let val4 = o.prop4;
+        log(`val4: ${val4}`);
+    } else {
+        log('o.prop4 is null/undefined.'); // this gets printed
+    }
+
+    if (o.prop4 === '') {
+        log(`o.prop4 is empty string. o.prop4: ${o.prop4}`); // this gets printed
+        let val4 = o.prop4;
+        log(`val4: ${val4}`);
+    } else {
+        log('o.prop4 is not empty string.');
+    }
+
+    if (o.prop5) {
+        log('o.prop5 is not null/undefined.');
+    } else {
+        log('o.prop5 is null/undefined.'); // this gets printed
+    }
+
+    if (o.prop5 === null) {
+        log('o.prop5 is null.');
+    } else {
+        log('o.prop5 is not null.'); // this gets printed
+    }
+
+    if (o.prop5 === undefined) {
+        log('o.prop5 is undefined.'); // this gets printed
+    } else {
+        log('o.prop5 is not undefined.');
+    }
+
+    if (typeof o.prop5 === 'undefined') {
+        log('typeof o.prop5 is \'undefined\'.'); // this gets printed
+    } else {
+        log('typeof o.prop5 is not \'undefined\'.');
+    }
+
+    try {
+        let val5 = o.prop5;
+        log(`val5: ${val5}`); // val5: undefined
+    } catch (e) {
+        log(`Error: ${e}`);
+    }
+
+    if (o.prop6 === null) {
+        log(`o.prop6 is null. o.prop6 = ${o.prop6}`);
+    } else {
+        log(`o.prop6 is NOT null. o.prop6 = ${o.prop6}`);
     }
 }
