@@ -19,6 +19,11 @@ document.getElementById('button-demo-spread-operator-properties').onclick = func
     spreadOperatorOnPropertiesDemo();
 };
 
+document.getElementById('button-demo-delete-operator').onclick = function() {
+    clearElement('output');
+    deleteOperatorDemo();
+};
+
 //
 // Core functions
 //
@@ -163,4 +168,32 @@ function spreadOperatorOnPropertiesDemo() {
     log(`aggregateObject2 = ${JSON.stringify(aggregateObject2)}`);
     // Values are overwritten!
     // aggregateObject2 = {"a":3,"b":4}
+}
+
+function deleteOperatorDemo() {
+    var Employee = {
+        firstname: 'B',
+        lastname: 'Komazec'
+    };
+
+    log(Employee.firstname);
+    // expected output: "B"
+
+    delete Employee.firstname;
+
+    log(Employee.firstname);
+    // expected output: undefined
+
+    // attribute can be delted multiple times
+    delete Employee.firstname;
+    log(Employee.firstname);
+    // output: "undefined"
+
+    Employee.firstname = 'Bojan';
+    log(Employee.firstname);
+
+    // a new attribute with arbitrary name can be added dynamically:
+    log(`Nickname: ${Employee.nickname}`);
+    Employee.nickname = 'Kibo';
+    log(`Nickname: ${Employee.nickname}`);
 }

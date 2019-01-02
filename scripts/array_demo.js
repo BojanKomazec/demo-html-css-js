@@ -269,4 +269,53 @@ function reduceDemo() {
 
     let finalValue = arr.reduce(reducer);
     log(`finalValue = ${finalValue}`);
+
+    FilterUniqueValuesOfNestedProperty();
+}
+
+function FilterUniqueValuesOfNestedProperty() {
+    const locations = [
+        {
+            country: 'Austria',
+            city: 'Lienz'
+        },
+        {
+            country: 'Austria',
+            city: 'Wiena'
+        },
+        {
+            country: 'Bulgaria',
+            city: 'Sofia'
+        },
+        {
+            country: 'Croatia',
+            city: 'Zagreb'
+        },
+        {
+            country: 'Croatia',
+            city: 'Split'
+        },
+    ];
+
+    const countries = locations.reduce((countries, location) => {
+        if (!countries.includes(location.country)) {
+            countries.push(location.country);
+        }
+        return countries;
+    }, []);
+
+    log(`Unique countries = ${countries}`);
+
+    /**
+     * Create a dictionary which has a country name as a key and an array of cities within it as an value
+     */
+    const dictionary = locations.reduce((map, location) => {
+        if(!Object.keys(map).includes(location.country)) {
+            map[location.country] = [];
+        }
+        map[location.country].push(location.city);
+        return map;
+    }, {});
+
+    log(`Dictionary = ${JSON.stringify(dictionary)}`);
 }

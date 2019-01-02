@@ -81,6 +81,8 @@ function demo1() {
     unnamedObject.foo(123);
     unnamedObject.bar();
     // the type of the value can be changed in runtime
+    // Also, note that although unnamedObject is declared as const
+    // it is possible to change values/types of the object's properties!
     unnamedObject.a = 'a has now changed the type, it is a string now';
     unnamedObject.bar();
 
