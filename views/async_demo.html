@@ -1,16 +1,26 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <link rel="stylesheet" href="/styles/main.css">
     </head>
     <body>
-        <p>Async demo</p>
-        <br>
-        <button id="button-demo-1">Demo 1</button><br>
-        <br>
-        <button id="button-demo-2">Demo 2</button><br>
-        <br>
-        <button id="button-demo-3">Demo 3</button><br>
-        <p id="output"></p>
+        <div class="grid">
+            <div class="home">
+                <a href="/index.html">Home</a>
+            </div>
+            <div class="title">
+                <p>Async demo</p>
+            </div>
+            <div class="sidebar">
+                <button class="button-sidebar" id="button-demo-1">Demo 1</button>
+                <button class="button-sidebar" id="button-demo-2">Demo 2</button>
+                <button class="button-sidebar" id="button-demo-3">Demo 3</button>
+                <button class="button-sidebar" id="button-demo-testThrowingException">Test Throwing Exception</button>
+            </div>
+            <div class="content">
+                <p id="output"></p>
+            </div>
+        </div>
         <script type='module' src='/scripts/async_demo.js'></script>
     </body>
 </html>

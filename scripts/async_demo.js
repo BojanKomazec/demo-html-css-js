@@ -19,6 +19,11 @@ document.getElementById('button-demo-3').onclick = function() {
     demo3();
 };
 
+document.getElementById('button-demo-testThrowingException').onclick = function() {
+    clearElement('output');
+    testThrowingException();
+};
+
 var total = 0;
 
 function doubleAfter2Seconds(x) {
@@ -60,4 +65,60 @@ async function addAsync() {
 
 function demo3() {
     addAsync().then(x => log(`x=${x}`));
+}
+
+function SomeLongBackgroundTask(value) {
+    return new Promise((res, rej) => {
+        if (value) {
+            res(value);
+        } else {
+            rej('Value not provided to succeed!')
+        }
+    });
+}
+
+async function testThrowingException() {
+    try {
+        // async fn not awaited => its return value remains promise
+        const value = SomeLongBackgroundTask('This is the key of success!');
+        log(`value = ${value}`);
+        // test if object is of type Promise
+        // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/resolve
+        if (Promise.resolve(value) === value) {
+            value.then(val => log(`Promise fulfilled with value: ${val}`));
+            // Output: Promise fulfilled with value: This is the key of success!
+        }
+    } catch (e) {
+        log(`Error caught: ${e}`);
+    }
+
+    try {
+        // async fn awaited => its return value is converted to value passed to promise's resolve fn
+        const value = await SomeLongBackgroundTask('This is the key of success!');
+        log(`value = ${value}`);
+    } catch (e) {
+        log(`Error caught: ${e}`);
+    }
+
+    try {
+        // not awaiting async fn which rejects => return value remains a (rejected) promise
+        const value = SomeLongBackgroundTask(null);
+        log(`value = ${value}`);
+
+        // test if object is of type Promise
+        // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/resolve
+        if (Promise.resolve(value) === value) {
+            value.catch(reason => log(`Promise rejected with reason: ${reason}`));
+            // Promise rejected with reason: Value not provided to succeed!
+        }
+    } catch (e) {
+        log(`Error caught: ${e}`);
+    }
+
+    try {
+        const value = await SomeLongBackgroundTask(null);
+        log(`value = ${value}`);
+    } catch (e) {
+        log(`Error caught: ${e}`);
+    }
 }
