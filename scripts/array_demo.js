@@ -69,6 +69,11 @@ document.getElementById('button-demo-reduce').onclick = function() {
     reduceDemo();
 };
 
+document.getElementById('button-demo-add-elements-conditionally').onclick = function() {
+    clearElement('output');
+    addElementsConditionally();
+};
+
 //
 // Core functions
 //
@@ -318,4 +323,32 @@ function FilterUniqueValuesOfNestedProperty() {
     }, {});
 
     log(`Dictionary = ${JSON.stringify(dictionary)}`);
+}
+
+/**
+ * filter(callback) - removes from array any element for which callback returns false.
+ *
+ * Boolean is a constructor for a boolean type - it returns either true or false.
+ * It returns false for all falsy input values 0, -0, "", NaN, null and false.
+ *
+ * This example is also called "Falsy bouncer" as it removes all elements of array which render as falsy if converted
+ * to boolean type.
+ */
+function addElementsConditionally() {
+    const condition1 = false;
+    const condition2 = true;
+    const myArray = [
+        {
+            id: 1
+        },
+        condition1 && {
+            id: 2
+        },
+        condition2 && {
+            id: 3
+        },
+    ].filter(Boolean);
+
+    log('Array elements: ');
+    myArray.forEach(el => log(el.id));
 }
