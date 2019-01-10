@@ -19,9 +19,14 @@ document.getElementById('button-demo-3').onclick = function() {
     demo3();
 };
 
-document.getElementById('button-demo-testThrowingException').onclick = function() {
+document.getElementById('button-demo-testThrowingException').onclick = async function() {
     clearElement('output');
-    testThrowingException();
+    await testThrowingException();
+};
+
+document.getElementById('button-demo-testAwaitingVsFireAndForget').onclick = function() {
+    clearElement('output');
+    testAwaitingVsFireAndForget();
 };
 
 var total = 0;
@@ -29,11 +34,12 @@ var total = 0;
 function doubleAfter2Seconds(x) {
     log(`doubleAfter2Seconds(): x = ${x}`);
     return new Promise(resolve => {
-        setTimeout(() => { 
+        setTimeout(() => {
             let doubled = x*2; 
             total += doubled; 
             log(`total = ${total}`);
-            resolve(doubled); 
+            log('doubleAfter2Seconds(): About to resolve.');
+            resolve(doubled);
         }, 2000);
     });
 }
@@ -67,20 +73,56 @@ function demo3() {
     addAsync().then(x => log(`x=${x}`));
 }
 
-function SomeLongBackgroundTask(value) {
+function settlePromiseImmediately(value) {
+    log(`settlePromiseImmediately(${value})`);
     return new Promise((res, rej) => {
         if (value) {
             res(value);
         } else {
-            rej('Value not provided to succeed!')
+            rej('Value not provided to succeed!');
         }
     });
 }
 
+function settlePromiseAfterTimeout(value) {
+    log(`settlePromiseAfterTimeout(${value})`);
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            if (value) {
+                resolve(value);
+            } else {
+                reject('Reject settlePromiseAfterTimeout: Value not provided to succeed!');
+            }
+        }, 2000);
+    });
+}
+
+function resolvePromiseOrThrowExceptionImmediately(value) {
+    log('resolvePromiseOrThrowExceptionImmediately');
+    return new Promise((res) => {
+        if (value) {
+            res(value);
+        } else {
+            throw new Error('Exception! Value not provided to succeed!');
+        }
+    });
+}
+
+function backgroundTaskWhichThrowsExceptionAfterTimeout() {
+    log('backgroundTaskWhichThrowsExceptionAfterTimeout()');
+    return new Promise(() => {
+        setTimeout(() => {
+            throw new Error('Exception thrown from backgroundTaskWhichThrowsExceptionAfterTimeout()');
+        }, 2000);
+    });
+}
+
 async function testThrowingException() {
+    log('');
+    log('Call synchronously async function which fulfills immediately');
     try {
         // async fn not awaited => its return value remains promise
-        const value = SomeLongBackgroundTask('This is the key of success!');
+        const value = settlePromiseImmediately('This is the key of success!');
         log(`value = ${value}`);
         // test if object is of type Promise
         // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/resolve
@@ -92,17 +134,21 @@ async function testThrowingException() {
         log(`Error caught: ${e}`);
     }
 
+    log('');
+    log('Await async function which fulfills immediately');
     try {
         // async fn awaited => its return value is converted to value passed to promise's resolve fn
-        const value = await SomeLongBackgroundTask('This is the key of success!');
+        const value = await settlePromiseImmediately('This is the key of success!');
         log(`value = ${value}`);
     } catch (e) {
         log(`Error caught: ${e}`);
     }
 
+    log('');
+    log('Call synchronously async function which rejects immediately');
     try {
         // not awaiting async fn which rejects => return value remains a (rejected) promise
-        const value = SomeLongBackgroundTask(null);
+        const value = settlePromiseImmediately(null);
         log(`value = ${value}`);
 
         // test if object is of type Promise
@@ -115,10 +161,118 @@ async function testThrowingException() {
         log(`Error caught: ${e}`);
     }
 
+    log('');
+    log('Await async function which rejects immediately');
     try {
-        const value = await SomeLongBackgroundTask(null);
+        const value = await settlePromiseImmediately(null);
         log(`value = ${value}`);
     } catch (e) {
         log(`Error caught: ${e}`);
     }
+
+    log('');
+    log('Call synchronously async function which throws exception immediately');
+    try {
+        const value = resolvePromiseOrThrowExceptionImmediately(null);
+        log(`value = ${value}`);
+        // also, in console log:
+        //    Uncaught (in promise) Error: Exception! Value not provided to succeed!
+    } catch (e) {
+        log(`Error caught: ${e}`);
+    }
+
+    log('');
+    log('Await async function which throws exception immediately');
+    try {
+        const value = await resolvePromiseOrThrowExceptionImmediately(null);
+        log(`value = ${value}`);
+    } catch (e) {
+        log(`Error caught: ${e}`);
+    }
+
+    log('');
+    log('Await async function which settles by rejection after a timeout');
+    try {
+        const value = await settlePromiseAfterTimeout(null);
+        log(`value = ${value}`);
+    } catch (e) {
+        log(`Error caught: ${e}`);
+    }
+
+    log('');
+    log('Call synchronously async function which settles by rejection after a timeout');
+    try {
+        // no await => exception won't reach catch and becomes UNHANDLED
+        const value = settlePromiseAfterTimeout(null);
+        log(`value = ${value}`);
+        // output: [object Promise]
+        // also, in console.log:
+        //     Uncaught (in promise) Reject settlePromiseAfterTimeout: Value not provided to succeed!
+    } catch (e) {
+        log(`Error caught: ${e}`);
+    }
+
+    log('');
+    log('Call synchronously async function which throws exception after a timeout');
+    try {
+        log('Before backgroundTaskWhichThrowsExceptionAfterTimeout()');
+        // fire and forget: native exception (not rejection here) will be UNHANDLED
+        backgroundTaskWhichThrowsExceptionAfterTimeout();
+        log('After backgroundTaskWhichThrowsExceptionAfterTimeout()');
+        // also, in console log after 2 seconds:
+        //    Uncaught Error: Exception thrown from backgroundTaskWhichThrowsExceptionAfterTimeout()
+    } catch (e) {
+        log(`Error caught: ${e}`);
+    }
+
+    log('');
+    log('Await async function which throws exception after a timeout');
+    try {
+        log('Before await backgroundTaskWhichThrowsExceptionAfterTimeout()');
+        await backgroundTaskWhichThrowsExceptionAfterTimeout();
+        log('After await backgroundTaskWhichThrowsExceptionAfterTimeout()');
+        // also, in console log after 2 seconds:
+        //    Uncaught Error: Exception thrown from backgroundTaskWhichThrowsExceptionAfterTimeout()
+    } catch (e) {
+        log(`Error caught: ${e}`);
+    }
+}
+
+async function awaitSomeLongBackgroundTask() {
+    log('awaitSomeLongBackgroundTask()');
+    await doubleAfter2Seconds(2);
+    log('~awaitSomeLongBackgroundTask()');
+}
+
+function fireAndForgetSomeLongBackgroundTask() {
+    log('fireAndForgetSomeLongBackgroundTask()');
+    doubleAfter2Seconds(2);
+    log('~fireAndForgetSomeLongBackgroundTask()');
+}
+
+async function testAwait() {
+    log('testAwait()');
+    await awaitSomeLongBackgroundTask();
+    await awaitSomeLongBackgroundTask();
+    log('~testAwait()');
+}
+
+function testSynchronousCalls() {
+    log('testSynchronousCalls()');
+    awaitSomeLongBackgroundTask();
+    awaitSomeLongBackgroundTask();
+    log('~testSynchronousCalls()');
+}
+
+function testFireAndForget() {
+    log('testFireAndForget()');
+    fireAndForgetSomeLongBackgroundTask();
+    fireAndForgetSomeLongBackgroundTask();
+    log('~testFireAndForget()');
+}
+
+async function testAwaitingVsFireAndForget() {
+    //await testAwait();
+    testSynchronousCalls();
+    //testFireAndForget();
 }
