@@ -1,0 +1,131 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* Set height of body and the document to 100% */
+body, html {
+    height: 100%;
+    margin: 0;
+    font-family: Arial;
+}
+
+div {
+    background-color: lightgray;
+}
+
+span {
+    background-color: aquamarine;
+}
+
+/* Style tab links */
+.tablink {
+    background-color: lightgray;
+    color: black;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    font-size: 22px;
+    font-weight: bold;
+    width: 50%; /* calculation: 100/2 tabs = 50 */
+}
+
+.tablink:hover {
+    background-color : silver;
+}
+
+/* Style the tab content (and add height:100% for full page content) */
+.tabcontent {
+    color: black;
+    display: none;
+    padding: 100px 20px;
+    height: 100%;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: auto 1fr;
+}
+
+.home {
+    text-align: left;
+    padding-left: 15px;
+    font-size: x-large;
+    background-color: lightblue;
+}
+
+.title {
+    text-align: left;
+    padding-left: 15px;
+    font-size: x-large;
+    background-color: lightskyblue;
+}
+
+.sidebar {
+    padding: 10px;
+}
+
+.button-sidebar {
+    margin: 5px;
+    width: fit-content;
+    display:block;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.content {
+    padding: 10px;
+    /* background-color: lightgray; */
+    /* width: 80vw;
+    height: 90vh; */
+}
+
+
+.apply_after::after {
+    content: "hi";
+}
+
+div.apply_after::after {
+    content: "hi_after_div";
+}
+
+.status {
+    display:inline-block
+}
+
+.loading2 {
+    display: inline;
+}
+
+.loading:after, .loading2:after {
+    overflow: hidden;
+    display: inline-block;
+    vertical-align: bottom;
+    -webkit-animation: ellipsis steps(4,end) 900ms infinite;      
+    animation: ellipsis steps(4,end) 900ms infinite;
+    content: "\2026"; /* ascii code for the ellipsis character */
+    width: 0px;
+}
+
+@keyframes ellipsis {
+    to {
+        width: 20px;    
+    }
+}
+
+@-webkit-keyframes ellipsis {
+    to {
+        width: 20px;
+    }
+}
+
+#html-css-js {
+    background-color: powderblue;
+}
+
+#javascript {
+    background-color: palegoldenrod;
+}
