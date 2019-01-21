@@ -9,6 +9,11 @@ document.getElementById('button-demo-rest-parameter').onclick = function() {
     restParameterDemo();
 };
 
+document.getElementById('button-demo-dynamically-set-object-on-which-fn-is-invoked').onclick = function() {
+    clearElement('output');
+    dynamicallySetObjectOnWhichFunctionIsInvokedDemo();
+};
+
 //
 // Core functions
 //
@@ -27,4 +32,24 @@ function restParameterDemo() {
     foo(1, 2);
     foo(1, 2, 3);
     foo(1, 2, 3, 4);
+}
+
+function dynamicallySetObjectOnWhichFunctionIsInvokedDemo() {
+    const o1 = {
+        foo: function() {
+            log('o1.foo()');
+        },
+    };
+
+    const o2 = {
+        foo: function() {
+            log('o2.foo()');
+        },
+    };
+
+    let o = o1;
+    o.foo();
+
+    o = o2;
+    o.foo();
 }
