@@ -218,10 +218,25 @@ function mapDemo() {
 }
 
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map
+// https://stackoverflow.com/questions/12482961/is-it-possible-to-change-values-of-the-array-when-doing-foreach-in-javascript
 function forEachDemo() {
+    log("forEachDemo()");
     let arr = [1, 2, 3];
     log(`arr = ${arr}`);
     arr.forEach(el => log(`${el}`));
+
+    // It is possible to change array elements in forEach loop:
+    arr.forEach((elem, index, arr) => {
+        arr[index] = elem + 1;
+    });
+    log(`arr = ${arr}`);
+
+    // another option - pass array as 2nd arg of forEach (not the callback); callback must be in form of 'function'
+    arr.forEach(function(elem, index) {
+        this[index] = elem + 1;
+    }, arr);
+    log(`arr = ${arr}`);
+    log("~forEachDemo()");
 }
 
 function isArrayDemo() {

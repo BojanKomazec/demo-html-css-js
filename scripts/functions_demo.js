@@ -14,6 +14,11 @@ document.getElementById('button-demo-dynamically-set-object-on-which-fn-is-invok
     dynamicallySetObjectOnWhichFunctionIsInvokedDemo();
 };
 
+document.getElementById('button-demo').onclick = function() {
+    clearElement('output');
+    demo();
+};
+
 //
 // Core functions
 //
@@ -52,4 +57,31 @@ function dynamicallySetObjectOnWhichFunctionIsInvokedDemo() {
 
     o = o2;
     o.foo();
+}
+
+function modifyingArgumentDemo() {
+    log('modifyingArgumentDemo()');
+
+    /**
+     * Modifies input json object by adding a new property.
+     * @param json - json to be modified
+     */
+    function modifyJson(json) {
+        json['newProp'] = 'I am a new property';
+    };
+
+    let json = {
+        a: 1,
+        b: 'two'
+    };
+
+    log(`json (before passing through 'modifyJson') = ${JSON.stringify(json)}`);
+
+    modifyJson(json);
+
+    log(`json (after) = ${JSON.stringify(json)}`);
+}
+
+function demo() {
+    modifyingArgumentDemo();
 }

@@ -4,9 +4,9 @@ import { clearElement, log}  from './common.js';
 // HTML event callbacks
 //
 
-document.getElementById('button-demo-1').onclick = function() {
+document.getElementById('button-demo').onclick = function() {
     clearElement('output');
-    demo1();
+    demo();
 };
 
 document.getElementById('button-demo-reflection').onclick = function() {
@@ -131,7 +131,7 @@ function logKeys(obj) {
     });
 }
 
-// for..in 
+// for..in
 function logKeys2(obj) {
     log('logKeys2()');
     for(let key in obj) {
@@ -169,15 +169,15 @@ function logFunctionMembers(obj) {
 
 // literals give you a string primitive, whereas the constructor gives you a String object.
 function demoReflection() {
-    
+
     let person = new Person('Alice');
-    
+
     log(String); // output: function String() { [native code] }
-    log(new String()); // output: 
+    log(new String()); // output:
 
 
     log('\n');
-    
+
     log('Print all object keys:');
 
     logKeys(String);
@@ -219,13 +219,29 @@ function demoReflection() {
 }
 
 function demoTypes() {
-    log('demoTypes');
+    log('demoTypes()');
+
     log(`typeof 'test' = ${typeof 'test'}`); // output: string
 
     // String is a global object - a constructor for strings
-    log(`typeof new String() = ${typeof new String()}`); // output: 
-    log(`typeof new String('test') = ${typeof new String('test')}`); // output:
+    log(`typeof new String() = ${typeof new String()}`); // output: object
+    log(`typeof new String('test') = ${typeof new String('test')}`); // output: object
 
+    const json1 = {};
+    log(`typeof of ${JSON.stringify(json1)}: ${typeof(json1)}`); // object
+
+    const json2 = {
+        a: 1,
+    };
+    log(`typeof of ${JSON.stringify(json2)}: ${typeof(json2)}`); // object
+
+    const str1 = "";
+    log(`typeof of \"${str1}\": ${typeof(str1)}`); // string
+
+    const str2 = "test";
+    log(`typeof of \"${str2}\": ${typeof(str2)}`); // string
+
+    log('~demoTypes()');
 }
 
 // Object.getOwnPropertyNames() lists both enumerable and non-enumerable properties of the object
@@ -373,4 +389,212 @@ function jsonVerificationDemo() {
     } else {
         log(`o.prop6 is NOT null. o.prop6 = ${o.prop6}`);
     }
+}
+
+function shallowCloneTrapDemo(){
+
+    let country_uk = {
+        name: "United Kingdom",
+        capital: "London"
+    };
+
+    let country_fr = {
+        name: "France",
+        capital: "Paris"
+    };
+
+    let country_ch = {
+        name: "China",
+        capital: "Beijing"
+    };
+
+    let country_jp = {
+        name: "Japan",
+        capital: "Tokio"
+    };
+
+    let continent_eu = {
+        name: "europe",
+        countries: [
+            country_fr,
+            country_uk
+        ]
+    }
+
+    let continent_as = {
+        name: "asia",
+        countries: [
+            country_ch,
+            country_jp
+        ]
+    }
+
+    let world = {
+        continents: [
+            continent_as,
+            continent_eu
+        ]
+    };
+
+    log("shallowCloneTrapDemo()");
+    log("Before shallow copy:");
+    log("world = " + JSON.stringify(world));
+    let world_clone = Object.assign({}, world);
+    log("world_clone = " + JSON.stringify(world_clone));
+
+    log("After shallow copy:")
+    world_clone.continents[0].countries[0].capital =  "XOXOXOXOXOXOXOXO";
+    log("world = " + JSON.stringify(world));
+    log("world_clone = " + JSON.stringify(world_clone));
+}
+
+function objectCloningDemo() {
+    log("objectCloningDemo()");
+
+    let country_uk = {
+        name: "United Kingdom",
+        capital: "London"
+    };
+
+    let country_fr = {
+        name: "France",
+        capital: "Paris"
+    };
+
+    let country_ch = {
+        name: "China",
+        capital: "Beijing"
+    };
+
+    let country_jp = {
+        name: "Japan",
+        capital: "Tokio"
+    };
+
+    let continent_eu = {
+        name: "europe",
+        countries: [
+            country_fr,
+            country_uk
+        ]
+    }
+
+    let continent_as = {
+        name: "asia",
+        countries: [
+            country_ch,
+            country_jp
+        ]
+    }
+
+    let planet = {
+        name: "Earth",
+        continents: [
+            continent_as,
+            continent_eu
+        ]
+    };
+
+    function objectAssignDemo(obj) {
+        log("obj = " + JSON.stringify(obj));
+        let obj_clone = Object.assign({}, obj);
+        log("obj_clone = " + JSON.stringify(obj_clone));
+    }
+
+    function processCountry(country) {
+        let country_clone = Object.assign({}, country);
+        country_clone.name = "WhateverCountryName";
+        return country_clone;
+    }
+
+    function process1(planet) {
+        let planet_clone = Object.assign({}, planet);
+        delete planet_clone.name;
+        // log("planet_clone = " + JSON.stringify(planet_clone));
+        return planet_clone;
+    }
+
+    function process2(planet) {
+        let planet_clone = Object.assign({}, planet);
+        // (!) We are changing nested object on the cloned object - this makes permanent damage on that object and breaks immuatability!
+        planet_clone.continents[0].name = "*** WHATEVER CONTINTENT ***";
+        return planet_clone;
+    }
+
+    function process3(planet) {
+        let planet_clone = Object.assign({}, planet);
+        delete planet_clone.continents;
+        // log("planet_clone = " + JSON.stringify(planet_clone));
+        return planet_clone;
+    }
+
+
+    function shallowCloneDemo() {
+        log("shallowCloneDemo()");
+
+        let country_uk = {
+            name: "United Kingdom",
+            capital: "London"
+        };
+
+        let country_fr = {
+            name: "France",
+            capital: "Paris"
+        };
+
+        let country_ch = {
+            name: "China",
+            capital: "Beijing"
+        };
+
+        let country_jp = {
+            name: "Japan",
+            capital: "Tokio"
+        };
+
+        let continent_eu = {
+            name: "europe",
+            countries: [
+                country_fr,
+                country_uk
+            ]
+        }
+
+        let continent_as = {
+            name: "asia",
+            countries: [
+                country_ch,
+                country_jp
+            ]
+        }
+
+        let planet = {
+            name: "Earth",
+            continents: [
+                continent_as,
+                continent_eu
+            ]
+        };
+
+        log("planet = " + JSON.stringify(planet));
+        let processed1 = process1(planet);
+        log("processed1 = " + JSON.stringify(processed1));
+        log("planet = " + JSON.stringify(planet));
+        let processed2 = process2(processed1);
+        log("processed2 = " + JSON.stringify(processed2));
+        log("planet = " + JSON.stringify(planet));
+        let processed3 = process3(processed2);
+        log("processed3 = " + JSON.stringify(processed3));
+        log("planet = " + JSON.stringify(planet));
+    }
+
+
+    // objectAssignDemo();
+    shallowCloneDemo();
+}
+
+function demo() {
+    demo1();
+    shallowCloneTrapDemo();
+    objectCloningDemo();
 }

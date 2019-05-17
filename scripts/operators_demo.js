@@ -4,6 +4,11 @@ import { clearElement, log}  from './common.js';
 // HTML event callbacks
 //
 
+document.getElementById('button-operators-demo').onclick = function() {
+    clearElement('output');
+    demo();
+};
+
 document.getElementById('button-demo-equality-operator').onclick = function() {
     clearElement('output');
     equalityOperatorDemo();
@@ -27,7 +32,6 @@ document.getElementById('button-demo-delete-operator').onclick = function() {
 //
 // Core functions
 //
-
 
 function equalityOperatorDemo() {
     log(`' ' == 0: ${'' == 0}`);
@@ -107,7 +111,7 @@ function identityOperatorDemo() {
 
     log(`null == undefined: ${null == undefined}`);
     log(`null === undefined: ${null === undefined}`);
-    
+
     // log(`undefinedVar === undefined: ${undefinedVar === undefined}`); // ReferenceError: undefinedVar is not defined
     const o = { 'a' : 1 };
     log(`o.b === undefined: ${o.b === undefined}`);
@@ -170,6 +174,14 @@ function spreadOperatorOnPropertiesDemo() {
     // aggregateObject2 = {"a":3,"b":4}
 }
 
+function getDepth({children}) {
+    let subtreeDepth = 0;
+    if (children) {
+        Math.max(...children.map(getDepth))
+    }
+    return 1 + subtreeDepth;
+}
+
 function deleteOperatorDemo() {
     var Employee = {
         firstname: 'B',
@@ -196,4 +208,104 @@ function deleteOperatorDemo() {
     log(`Nickname: ${Employee.nickname}`);
     Employee.nickname = 'Kibo';
     log(`Nickname: ${Employee.nickname}`);
+}
+
+
+/**
+ * Yields different value on each call.
+ * function* means this is a generator function
+ */
+function* foo() {
+    yield 1;
+    yield 2;
+    yield 3;
+}
+
+function for_of_loop__generator_function__demo() {
+    log('for_of_loop__generator_function__demo()');
+
+    for (let o of foo()) {
+        log(o);
+    }
+}
+
+function for_of_loop__json_object__demo() {
+    log('for_of_loop__json_object__demo()');
+
+    const json = {
+        a: 1,
+    };
+
+    try {
+        for (let key of json) { // TypeError: json is not iterable
+            log(`key = ${key}`);
+        }
+    } catch (e) {
+        log(`Error: ${e}`);
+    }
+}
+
+function for_in_loop__json_object__demo() {
+    log('for_in_loop__json_object__demo()');
+
+    const json = {
+        a: 1,
+        b: {
+            ba: 21,
+        },
+        c: {
+            ca: {
+                caa: 311,
+            },
+        },
+        d: {
+            da: {
+                daa: {
+                    daaa: 4111,
+                    daab: 4112,
+                },
+                dab: {
+                    daba: 4121,
+                    dabb: 4122,
+                },
+            },
+        },
+    };
+
+    for (const key in json) {
+        if (json.hasOwnProperty(key)) {
+            const value = json[key];
+            log(`key = ${key}, value = ${value}`);
+        }
+    }
+}
+
+function for_in_loop__modify_item_demo() {
+    log('for_in_loop__modify_item_demo()');
+
+    let strings = ['a', 'b', 'c'];
+
+    log(`strings (before processing withing for-of-loop) = ${strings}`);
+
+    for (let str of strings) {
+        str = str + "_";
+    }
+
+    log(`strings (after) = ${strings}`);
+
+    log(`strings (before processing with forEach) = ${strings}`);
+
+    // this loop will permanently change array elements
+    strings.forEach((str, index) => {
+        strings[index] = str + "_";
+    });
+
+    log(`strings (after) = ${strings}`);
+}
+
+function demo() {
+    for_of_loop__generator_function__demo();
+    for_of_loop__json_object__demo();
+    for_in_loop__json_object__demo();
+    for_in_loop__modify_item_demo();
 }
