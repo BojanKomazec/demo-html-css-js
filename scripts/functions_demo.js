@@ -82,6 +82,29 @@ function modifyingArgumentDemo() {
     log(`json (after) = ${JSON.stringify(json)}`);
 }
 
+function arrayFunctionDemo() {
+    // This function does nothing and is the same as:
+    // const f1: () => void
+    const f1 = () => {};
+    log(`f1() = ${f1()}`); // Output: f1() = undefined
+
+    const f2 = () => ({});
+    log(`f2() = ${f2()}`); // Output: f2() = [object Object]
+
+    const f3 = () => {{}};
+    log(`f3() = ${f3()}`); // Output: f3() = undefined
+
+    const f4 = () => { return {}};
+    log(`f4() = ${f4()}`); // Output: f4() = [object Object]
+
+    const f5 = () => { a: 1 };
+    log(`f5() = ${f5()}`); // Output: f5() = undefined
+
+    const f6 = () => ({ a: 1 });
+    log(`f6() = ${f6()}`); // Output: f6() = [object Object]
+}
+
 function demo() {
     modifyingArgumentDemo();
+    arrayFunctionDemo();
 }
