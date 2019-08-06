@@ -303,9 +303,41 @@ function for_in_loop__modify_item_demo() {
     log(`strings (after) = ${strings}`);
 }
 
+// typeof operator returns a string indicating the type of the unevaluated operand. It can be:
+// "undefined", "object", "function", "boolean" etc...
+//
+// instanceof operator tests whether the prototype property of a constructor appears anywhere in the prototype chain of an object.
+// object is examined against the type constructor! (c-tor names start with capital letter!)
+function typeOperatorsDemo() {
+    const s = "";
+    log(`typeof s = ${typeof s }`);
+    log(`s instanceof Number = ${s instanceof Number}`); // false
+    log(`s instanceof String = ${s instanceof String}`); // false (!) b/c this is a literal, not String object!
+    log(`s instanceof Object = ${s instanceof Object}`); // false
+
+    const s2 = new String("");
+    log(`typeof s2 = ${typeof s2 }`);
+    log(`s2 instanceof Number = ${s2 instanceof Number}`); // false
+    log(`s2 instanceof String = ${s2 instanceof String}`); // true
+    log(`s2 instanceof Object = ${s2 instanceof Object}`); // true
+
+    const a = []
+    log(`typeof a = ${typeof a }`);
+    log(`a instanceof Array = ${a instanceof Array}`);
+    log(`a instanceof Object = ${a instanceof Object}`);
+    log(`Array.isArray(a) = ${Array.isArray(a)}`);
+
+    const o = {}
+    log(`typeof o = ${typeof o }`);
+    log(`o instanceof Array = ${o instanceof Array}`);
+    log(`o instanceof Object = ${o instanceof Object}`);
+    log(`Array.isArray(o) = ${Array.isArray(o)}`);
+}
+
 function demo() {
     for_of_loop__generator_function__demo();
     for_of_loop__json_object__demo();
     for_in_loop__json_object__demo();
     for_in_loop__modify_item_demo();
+    typeOperatorsDemo();
 }
